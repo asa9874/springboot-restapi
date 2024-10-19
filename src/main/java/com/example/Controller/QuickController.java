@@ -50,6 +50,12 @@ public class QuickController {
 
         
     }
+
+    @GetMapping("/item")
+    public itemDTO getItem(@RequestParam("id") String id) {
+        itemDTO res = quickservice.getItemById(id);
+        return res;
+    }
     
 
 }
