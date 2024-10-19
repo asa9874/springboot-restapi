@@ -1,19 +1,24 @@
 package com.example.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Service.QuickService;
 import com.example.dto.ResponseDTO;
 import com.example.dto.itemDTO;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 public class QuickController {
+
+    @Autowired
+    private QuickService quickservice;
+    
     @GetMapping("/dummy")
     public String dummy(){
         return "{}";
@@ -31,9 +36,19 @@ public class QuickController {
 
     @PostMapping("/item")
     public ResponseDTO registerItem(@RequestBody itemDTO item) {
-        ResponseDTO responsedto = new ResponseDTO();
-        responsedto.setMessage("OK");
-        return responsedto;
+        boolean b= quickservice.registerItem(item);
+        if(b){
+            ResponseDTO responsedto = new ResponseDTO();
+            responsedto.setMessage("OK");
+            return responsedto;
+        }
+        else{
+            ResponseDTO responsedto = new ResponseDTO();
+            responsedto.setMessage("fail");
+            return responsedto;
+        }
+
+        
     }
     
 
